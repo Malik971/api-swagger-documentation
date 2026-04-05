@@ -1,0 +1,454 @@
+{
+  "info": {
+    "name": "Libriciel Partner API - Demo",
+    "_postman_id": "libriciel-demo-2026",
+    "description": "Collection Postman complète pour tester l'API d'intégration partenaire Libriciel/Pastell.\n\n## Comment utiliser cette collection\n\n1. Importez cette collection dans Postman\n2. Créez un environnement avec la variable `baseUrl` = `http://localhost:8080`\n3. Commencez par la requête \"1. Obtenir un token\" dans le dossier Authentification\n4. Le token sera automatiquement stocké et utilisé pour toutes les requêtes suivantes\n\n## Credentials de démo\n- client_id: `partner-demo`\n- client_secret: `secret123`\n\n---\n\nCréé par **Malik Ibo** pour sa candidature DevRel chez Libriciel SCOP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "documentId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "🔐 Authentification",
+      "item": [
+        {
+          "name": "1. Obtenir un token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Extraire et sauvegarder automatiquement le token",
+                  "if (pm.response.code === 200) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"token\", jsonData.accessToken);",
+                  "    pm.environment.set(\"token\", jsonData.accessToken);",
+                  "    console.log(\"✅ Token sauvegardé avec succès !\");",
+                  "} else {",
+                  "    console.log(\"❌ Authentification échouée\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"partner-demo\",\n  \"clientSecret\": \"secret123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/token",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "token"]
+            },
+            "description": "Authentifie un partenaire et retourne un token JWT.\n\n**Ce token sera automatiquement sauvegardé** et utilisé pour toutes les autres requêtes.\n\n### Credentials de démo\n- client_id: `partner-demo`\n- client_secret: `secret123`"
+          },
+          "response": []
+        },
+        {
+          "name": "2. Vérifier le token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "verify"]
+            },
+            "description": "Vérifie si le token actuel est valide et non expiré.\n\nUtile pour diagnostiquer des problèmes d'authentification."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints d'authentification pour obtenir et vérifier un token JWT."
+    },
+    {
+      "name": "📄 Documents - CRUD",
+      "item": [
+        {
+          "name": "1. Créer un document",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "// Sauvegarder automatiquement l'ID du document créé",
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set(\"documentId\", jsonData.id);",
+                  "    pm.environment.set(\"documentId\", jsonData.id);",
+                  "    console.log(\"✅ Document créé : \" + jsonData.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titre\": \"Délibération Conseil Municipal - Avril 2026\",\n  \"type\": \"DELIBERATION\",\n  \"statut\": \"BROUILLON\",\n  \"destinataire\": \"Mairie de Montpellier\",\n  \"metadata\": {\n    \"referenceInterne\": \"DEL-2026-042\",\n    \"classification\": \"PUBLIC\",\n    \"confidentiel\": false,\n    \"tags\": [\"conseil\", \"municipal\", \"2026\"]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents"]
+            },
+            "description": "Crée un nouveau document dans le système.\n\nLe document est créé avec le statut BROUILLON par défaut.\n\n**L'ID du document sera automatiquement sauvegardé** pour les requêtes suivantes."
+          },
+          "response": []
+        },
+        {
+          "name": "2. Lister tous les documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents"]
+            },
+            "description": "Récupère la liste de tous les documents créés."
+          },
+          "response": []
+        },
+        {
+          "name": "3. Récupérer un document par ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/{{documentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "{{documentId}}"]
+            },
+            "description": "Récupère un document spécifique par son ID.\n\nUtilise l'ID du dernier document créé (sauvegardé automatiquement)."
+          },
+          "response": []
+        },
+        {
+          "name": "4. Lister mes documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/mes-documents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "mes-documents"]
+            },
+            "description": "Récupère tous les documents créés par le partenaire authentifié."
+          },
+          "response": []
+        },
+        {
+          "name": "5. Mettre à jour un document",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titre\": \"Délibération Conseil Municipal - MODIFIÉE\",\n  \"metadata\": {\n    \"referenceInterne\": \"DEL-2026-042-V2\",\n    \"classification\": \"PUBLIC\",\n    \"confidentiel\": false,\n    \"tags\": [\"conseil\", \"municipal\", \"2026\", \"modifié\"]\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/{{documentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "{{documentId}}"]
+            },
+            "description": "Met à jour les informations d'un document existant."
+          },
+          "response": []
+        },
+        {
+          "name": "6. Supprimer un document",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/{{documentId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "{{documentId}}"]
+            },
+            "description": "Supprime définitivement un document du système.\n\n⚠️ Cette action est irréversible."
+          },
+          "response": []
+        }
+      ],
+      "description": "Opérations CRUD (Create, Read, Update, Delete) sur les documents."
+    },
+    {
+      "name": "🔄 Documents - Workflow",
+      "item": [
+        {
+          "name": "1. BROUILLON → EN_ATTENTE_SIGNATURE",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statut\": \"EN_ATTENTE_SIGNATURE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/{{documentId}}/statut",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "{{documentId}}", "statut"]
+            },
+            "description": "Fait passer le document en attente de signature électronique."
+          },
+          "response": []
+        },
+        {
+          "name": "2. EN_ATTENTE_SIGNATURE → SIGNE",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statut\": \"SIGNE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/{{documentId}}/statut",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "{{documentId}}", "statut"]
+            },
+            "description": "Marque le document comme signé."
+          },
+          "response": []
+        },
+        {
+          "name": "3. SIGNE → EN_COURS_TRANSMISSION",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statut\": \"EN_COURS_TRANSMISSION\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/{{documentId}}/statut",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "{{documentId}}", "statut"]
+            },
+            "description": "Lance la transmission du document."
+          },
+          "response": []
+        },
+        {
+          "name": "4. EN_COURS_TRANSMISSION → TRANSMIS",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statut\": \"TRANSMIS\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/{{documentId}}/statut",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "{{documentId}}", "statut"]
+            },
+            "description": "Marque le document comme transmis avec succès."
+          },
+          "response": []
+        },
+        {
+          "name": "5. Marquer comme REJETE",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statut\": \"REJETE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/{{documentId}}/statut",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "{{documentId}}", "statut"]
+            },
+            "description": "Marque le document comme rejeté."
+          },
+          "response": []
+        },
+        {
+          "name": "6. Archiver le document",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"statut\": \"ARCHIVE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/{{documentId}}/statut",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "{{documentId}}", "statut"]
+            },
+            "description": "Archive le document."
+          },
+          "response": []
+        }
+      ],
+      "description": "Transitions de statut dans le workflow documentaire.\n\nCycle de vie classique : BROUILLON → EN_ATTENTE_SIGNATURE → SIGNE → EN_COURS_TRANSMISSION → TRANSMIS"
+    },
+    {
+      "name": "🔍 Documents - Recherche & Stats",
+      "item": [
+        {
+          "name": "1. Filtrer par statut BROUILLON",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents?statut=BROUILLON",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents"],
+              "query": [
+                {
+                  "key": "statut",
+                  "value": "BROUILLON"
+                }
+              ]
+            },
+            "description": "Liste tous les documents en brouillon."
+          },
+          "response": []
+        },
+        {
+          "name": "2. Filtrer par statut TRANSMIS",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents?statut=TRANSMIS",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents"],
+              "query": [
+                {
+                  "key": "statut",
+                  "value": "TRANSMIS"
+                }
+              ]
+            },
+            "description": "Liste tous les documents transmis."
+          },
+          "response": []
+        },
+        {
+          "name": "3. Statistiques globales",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/documents/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "documents", "stats"]
+            },
+            "description": "Retourne des statistiques sur les documents : nombre total, répartition par statut, etc."
+          },
+          "response": []
+        }
+      ],
+      "description": "Recherche et statistiques sur les documents."
+    },
+    {
+      "name": "❤️ Santé",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "health"]
+            },
+            "description": "Endpoint public pour vérifier que l'API fonctionne correctement.\n\n✅ Aucune authentification requise"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints de vérification de l'état de l'API."
+    }
+  ]
+}
