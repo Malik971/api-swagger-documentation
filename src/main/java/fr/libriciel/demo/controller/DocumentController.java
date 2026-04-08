@@ -24,7 +24,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/documents")
 @Tag(name = "Documents", description = "Gestion des documents dans le flux de dématérialisation")
-@SecurityRequirement(name = "bearer-auth")
 public class DocumentController {
     
     @Autowired

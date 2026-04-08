@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AuthResponse {
     private String accessToken;
-    private String tokenType = "Bearer";
+    private String tokenType = "Bearer ";
     private Long expiresIn; // en secondes
     
     public AuthResponse(String accessToken, Long expiresIn) {

@@ -38,7 +38,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
             3. Utilisez ce token dans le header Authorization : `Bearer {token}`
             
             **Credentials de démo** :
-            - client_id: `partner-demo`
+            - client_id: `partnerDemo`
             - client_secret: `secret123`
             
             ## Workflow documentaire
@@ -60,6 +60,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     ),
     servers = {
         @Server(url = "http://localhost:8080", description = "Serveur de développement local")
+    },
+    security = {
+            @io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearer-auth")
     }
 )
 @SecurityScheme(
