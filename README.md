@@ -1,4 +1,4 @@
-# 🔌 Libriciel Partner API - Démo d'Intégration
+# Libriciel Partner API - Démo d'Intégration
 
 > **Projet de démonstration** créé par **Malik Ibo** dans le cadre de sa candidature au poste de **DevRel** chez **Libriciel SCOP**.
 
@@ -6,7 +6,7 @@ Ce projet simule l'écosystème d'intégration d'un partenaire avec les APIs Lib
 
 ---
 
-## 📋 Table des matières
+## Table des matières
 
 - [Vue d'ensemble](#-vue-densemble)
 - [Démarrage rapide](#-démarrage-rapide)
@@ -20,7 +20,7 @@ Ce projet simule l'écosystème d'intégration d'un partenaire avec les APIs Lib
 
 ---
 
-## 🎯 Vue d'ensemble
+## Vue d'ensemble
 
 ### Contexte
 
@@ -29,10 +29,10 @@ Cette API simule le système d'intégration que Libriciel propose aux éditeurs 
 ### Que fait cette API ?
 
 Elle permet aux partenaires de :
-- ✅ S'authentifier de manière sécurisée (JWT)
-- ✅ Créer et gérer des documents dans le flux de dématérialisation
-- ✅ Suivre le cycle de vie des documents (workflow)
-- ✅ Interroger l'état et les statistiques du système
+- S'authentifier de manière sécurisée (JWT)
+- Créer et gérer des documents dans le flux de dématérialisation
+- Suivre le cycle de vie des documents (workflow)
+- Interroger l'état et les statistiques du système
 
 ### Technologies utilisées
 
@@ -43,7 +43,7 @@ Elle permet aux partenaires de :
 
 ---
 
-## 🚀 Démarrage rapide
+## Démarrage rapide
 
 ### Prérequis
 
@@ -86,7 +86,7 @@ Réponse attendue :
 
 ---
 
-## 🔐 Authentification
+## Authentification
 
 ### Principe
 
@@ -139,11 +139,11 @@ curl http://localhost:8080/api/v1/documents \
 
 ---
 
-## 📡 Endpoints API
+## Endpoints API
 
 ### Documentation interactive
 
-👉 **Swagger UI** : http://localhost:8080/swagger-ui.html
+**Swagger UI** : http://localhost:8080/swagger-ui.html
 
 Toute l'API est documentée et testable directement dans Swagger.
 
@@ -151,21 +151,21 @@ Toute l'API est documentée et testable directement dans Swagger.
 
 | Méthode | Endpoint | Description | Auth requise |
 |---------|----------|-------------|--------------|
-| `POST` | `/api/v1/auth/token` | Obtenir un token d'accès | ❌ Non |
-| `GET` | `/api/v1/auth/verify` | Vérifier un token | ✅ Oui |
-| `GET` | `/api/v1/health` | Health check | ❌ Non |
-| `POST` | `/api/v1/documents` | Créer un document | ✅ Oui |
-| `GET` | `/api/v1/documents` | Lister tous les documents | ✅ Oui |
-| `GET` | `/api/v1/documents/{id}` | Récupérer un document | ✅ Oui |
-| `GET` | `/api/v1/documents/mes-documents` | Mes documents | ✅ Oui |
-| `PUT` | `/api/v1/documents/{id}` | Modifier un document | ✅ Oui |
-| `PATCH` | `/api/v1/documents/{id}/statut` | Changer le statut | ✅ Oui |
-| `DELETE` | `/api/v1/documents/{id}` | Supprimer un document | ✅ Oui |
-| `GET` | `/api/v1/documents/stats` | Statistiques | ✅ Oui |
+| `POST` | `/api/v1/auth/token` | Obtenir un token d'accès | Non |
+| `GET` | `/api/v1/auth/verify` | Vérifier un token | Oui |
+| `GET` | `/api/v1/health` | Health check | Non |
+| `POST` | `/api/v1/documents` | Créer un document | Oui |
+| `GET` | `/api/v1/documents` | Lister tous les documents | Oui |
+| `GET` | `/api/v1/documents/{id}` | Récupérer un document | Oui |
+| `GET` | `/api/v1/documents/mes-documents` | Mes documents | Oui |
+| `PUT` | `/api/v1/documents/{id}` | Modifier un document | Oui |
+| `PATCH` | `/api/v1/documents/{id}/statut` | Changer le statut | Oui |
+| `DELETE` | `/api/v1/documents/{id}` | Supprimer un document | Oui |
+| `GET` | `/api/v1/documents/stats` | Statistiques | Oui |
 
 ---
 
-## 🔄 Workflow documentaire
+## Workflow documentaire
 
 ### Statuts disponibles
 
@@ -200,7 +200,7 @@ curl -X PATCH http://localhost:8080/api/v1/documents/{id}/statut \
 
 ---
 
-## 💡 Exemples d'utilisation
+## Exemples d'utilisation
 
 ### Scénario complet : Créer et transmettre un document
 
@@ -286,7 +286,7 @@ curl http://localhost:8080/api/v1/documents/stats \
 
 ---
 
-## 📮 Collection Postman
+## Collection Postman
 
 Une collection Postman complète est fournie pour faciliter les tests : `libriciel-partner-api.postman_collection.json`
 
@@ -299,11 +299,11 @@ Une collection Postman complète est fournie pour faciliter les tests : `librici
 ### Structure de la collection
 
 La collection contient :
-- ✅ **Authentification** : Obtenir et vérifier un token
-- ✅ **Documents - CRUD** : Créer, lire, modifier, supprimer
-- ✅ **Documents - Workflow** : Transitions de statut
-- ✅ **Documents - Recherche** : Filtres et statistiques
-- ✅ **Santé** : Health check
+- **Authentification** : Obtenir et vérifier un token
+- **Documents - CRUD** : Créer, lire, modifier, supprimer
+- **Documents - Workflow** : Transitions de statut
+- **Documents - Recherche** : Filtres et statistiques
+- **Santé** : Health check
 
 ### Variables d'environnement Postman
 
@@ -315,7 +315,7 @@ token = (sera rempli automatiquement après auth)
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Structure du projet
 
@@ -342,17 +342,17 @@ src/main/java/fr/libriciel/demo/
 ### Choix techniques
 
 #### Pourquoi JWT ?
-- ✅ Stateless : pas de session côté serveur
-- ✅ Scalable : compatible avec une architecture microservices
-- ✅ Standard : compatible OAuth2 (Client Credentials flow)
-- ✅ Sécurisé : signature cryptographique
+- Stateless : pas de session côté serveur
+- Scalable : compatible avec une architecture microservices
+- Standard : compatible OAuth2 (Client Credentials flow)
+- Sécurisé : signature cryptographique
 
 #### Stockage en mémoire
 Pour cette démo, les documents sont stockés en mémoire (`ConcurrentHashMap`). En production, on utiliserait une base de données (PostgreSQL, MongoDB, etc.).
 
 ---
 
-## ❓ FAQ
+## FAQ
 
 ### Comment renouveler un token expiré ?
 Appelez à nouveau `/api/v1/auth/token` avec vos credentials.
@@ -379,53 +379,53 @@ Non, c'est une **démo pédagogique**. Pour la production :
 
 ---
 
-## 🎓 Pourquoi ce projet ?
+## Pourquoi ce projet ?
 
 Ce projet démontre ma compréhension du rôle **DevRel** chez Libriciel :
 
 ### 1. Compréhension technique
-- ✅ APIs REST
-- ✅ Authentification JWT
-- ✅ Architecture Spring Boot
-- ✅ Sécurité applicative
+- APIs REST
+- Authentification JWT
+- Architecture Spring Boot
+- Sécurité applicative
 
 ### 2. Pédagogie et documentation
-- ✅ README structuré et clair
-- ✅ Exemples concrets d'utilisation
-- ✅ Documentation Swagger complète
-- ✅ Collection Postman prête à l'emploi
+- README structuré et clair
+- Exemples concrets d'utilisation
+- Documentation Swagger complète
+- Collection Postman prête à l'emploi
 
 ### 3. Compréhension métier
-- ✅ Workflow documentaire administratif
-- ✅ Flux de dématérialisation
-- ✅ Interopérabilité partenaires
-- ✅ Cycle de vie d'un document
+- Workflow documentaire administratif
+- Flux de dématérialisation
+- Interopérabilité partenaires
+- Cycle de vie d'un document
 
 ### 4. Facilitation d'intégration
-- ✅ Démarrage rapide en 3 commandes
-- ✅ Scénarios complets pas à pas
-- ✅ Gestion des erreurs explicite
-- ✅ Expérience développeur optimisée
+- Démarrage rapide en 3 commandes
+- Scénarios complets pas à pas
+- Gestion des erreurs explicite
+- Expérience développeur optimisée
 
 ---
 
-## 👤 Auteur
+## Auteur
 
 **Malik Ibo**  
 Candidat au poste de DevRel chez Libriciel SCOP
 
-- 📧 Email : malik97un@gmail.com
-- 💼 Portfolio : [malik-ibo.netlify.app](https://malik-ibo.netlify.app)
-- 🐙 GitHub : [@Malik971](https://github.com/Malik971)
+- Email : malik97un@gmail.com
+- Portfolio : [malik-ibo.netlify.app](https://malik-ibo.netlify.app)
+- GitHub : [@Malik971](https://github.com/Malik971)
 
 ---
 
-## 📝 Licence
+## Licence
 
 Projet de démonstration créé dans un contexte de candidature professionnelle.
 
 ---
 
-**Prêt à intégrer avec Libriciel ? 🚀**
+**Prêt à intégrer avec Libriciel ?**
 
 Si vous êtes un partenaire et souhaitez intégrer vos solutions avec Libriciel, ce projet vous donne un aperçu de l'expérience que je souhaite créer en tant que DevRel : **claire, documentée, et centrée sur votre réussite**.

@@ -62,9 +62,9 @@ public class DocumentService {
     /**
      * Liste les documents d'un émetteur spécifique
      */
-    public List<Document> getDocumentsByEmetteur(String emetteur) {
+    public List<Document> getDocumentsByEmetteur(String editeurPartenaire) {
         return documents.values().stream()
-                .filter(doc -> emetteur.equals(doc.getEmetteur()))
+                .filter(doc -> editeurPartenaire.equals(doc.getEditeurPartenaire()))
                 .toList();
     }
     

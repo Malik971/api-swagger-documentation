@@ -5,7 +5,6 @@ import fr.libriciel.demo.model.DocumentStatus;
 import fr.libriciel.demo.service.DocumentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ public class DocumentController {
         
         // Récupérer le client_id depuis le token
         String clientId = authentication.getName();
-        document.setEmetteur(clientId);
+        document.setEditeurPartenaire(clientId);
         
         Document created = documentService.createDocument(document);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -175,7 +174,10 @@ public class DocumentController {
             "BROUILLON", (long) documentService.getDocumentsByStatus(DocumentStatus.BROUILLON).size(),
             "EN_ATTENTE_SIGNATURE", (long) documentService.getDocumentsByStatus(DocumentStatus.EN_ATTENTE_SIGNATURE).size(),
             "SIGNE", (long) documentService.getDocumentsByStatus(DocumentStatus.SIGNE).size(),
-            "TRANSMIS", (long) documentService.getDocumentsByStatus(DocumentStatus.TRANSMIS).size()
+            "TRANSMIS", (long) documentService.getDocumentsByStatus(DocumentStatus.TRANSMIS).size(),
+            "EN_COURS_TRANSMISSION", (long)  documentService.getDocumentsByStatus(DocumentStatus.EN_COURS_TRANSMISSION).size(),
+            "REJETE", (long) documentService.getDocumentsByStatus(DocumentStatus.REJETE).size(),
+            "ARCHIVE", (long) documentService.getDocumentsByStatus(DocumentStatus.ARCHIVE).size()
         );
         
         Map<String, Object> stats = Map.of(

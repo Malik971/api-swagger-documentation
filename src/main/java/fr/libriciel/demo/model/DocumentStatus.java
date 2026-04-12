@@ -1,9 +1,12 @@
 package fr.libriciel.demo.model;
 
+import lombok.Getter;
+
 /**
  * Représente les différents statuts d'un document dans le workflow.
  * Ces statuts simulent le cycle de vie d'un document dans Pastell.
  */
+@Getter
 public enum DocumentStatus {
     BROUILLON("Document en cours de création"),
     EN_ATTENTE_SIGNATURE("Document en attente de signature électronique"),
@@ -18,8 +21,5 @@ public enum DocumentStatus {
     DocumentStatus(String description) {
         this.description = description;
     }
-    
-    public String getDescription() {
-        return description;
-    }
+
 }

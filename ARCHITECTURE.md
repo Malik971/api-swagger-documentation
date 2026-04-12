@@ -1,4 +1,4 @@
-# 🏗️ Architecture du projet
+# Architecture du projet
 
 > Documentation technique de l'architecture de l'API Libriciel Partner Demo
 
@@ -14,36 +14,36 @@ Cette API simule un système d'intégration partenaire type Libriciel/Pastell. L
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     CLIENT (Partenaire)                      │
-│          (Postman, curl, application Java/Python...)         │
+│                     CLIENT (Partenaire)                     │
+│          (Postman, curl, application Java/Python...)        │
 └────────────────────────┬────────────────────────────────────┘
                          │ HTTP/REST
                          │ JSON
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│                    SECURITY LAYER                            │
-│  ┌──────────────────────────────────────────────────────┐  │
+│                    SECURITY LAYER                           │
+│  ┌───────────────────────────────────────────────────────┐  │
 │  │  JwtAuthenticationFilter                              │  │
 │  │  - Intercepte les requêtes                            │  │
 │  │  - Valide le token JWT                                │  │
 │  │  - Injecte l'authentification dans SecurityContext    │  │
-│  └──────────────────────────────────────────────────────┘  │
+│  └───────────────────────────────────────────────────────┘  │
 └────────────────────────┬────────────────────────────────────┘
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│                   CONTROLLER LAYER                           │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │   Auth       │  │  Document    │  │   Health     │      │
-│  │ Controller   │  │  Controller  │  │  Controller  │      │
-│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘      │
-│         │                  │                  │              │
-│         │ Gestion des endpoints REST          │              │
-│         │ Validation des entrées              │              │
-│         │ Mapping Request/Response            │              │
-└─────────┼──────────────────┼──────────────────┼──────────────┘
+│                   CONTROLLER LAYER                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │   Auth       │  │  Document    │  │   Health     │       │
+│  │ Controller   │  │  Controller  │  │  Controller  │       │
+│  └──────┬───────┘  └──────┬───────┘  └──────┬───────┘       │
+│         │                  │                  │             │
+│         │ Gestion des endpoints REST          │             │
+│         │ Validation des entrées              │             │
+│         │ Mapping Request/Response            │             │
+└─────────┼──────────────────┼──────────────────┼─────────────┘
           │                  │                  │
 ┌─────────▼──────────────────▼──────────────────▼──────────────┐
-│                    SERVICE LAYER                              │
+│                    SERVICE LAYER                             │
 │  ┌──────────────┐  ┌──────────────────────────────────┐      │
 │  │  JwtService  │  │     DocumentService              │      │
 │  │              │  │                                  │      │
@@ -52,18 +52,18 @@ Cette API simule un système d'intégration partenaire type Libriciel/Pastell. L
 │  │ - Valider    │  │ - CRUD documents                 │      │
 │  │   tokens     │  │ - Transitions de statut          │      │
 │  └──────────────┘  └──────────────────────────────────┘      │
-└─────────────────────────────┬─────────────────────────────────┘
+└─────────────────────────────┬────────────────────────────────┘
                               │
 ┌─────────────────────────────▼─────────────────────────────────┐
-│                      DATA LAYER                                │
-│  ┌──────────────────────────────────────────────────────┐    │
-│  │  ConcurrentHashMap (Stockage en mémoire)             │    │
-│  │  - Documents indexés par ID                          │    │
-│  │  - Thread-safe                                       │    │
-│  │                                                      │    │
-│  │  En production : PostgreSQL, MongoDB, etc.           │    │
-│  └──────────────────────────────────────────────────────┘    │
-└────────────────────────────────────────────────────────────────┘
+│                      DATA LAYER                               │
+│  ┌──────────────────────────────────────────────────────┐     │
+│  │  ConcurrentHashMap (Stockage en mémoire)             │     │
+│  │  - Documents indexés par ID                          │     │
+│  │  - Thread-safe                                       │     │
+│  │                                                      │     │
+│  │  En production : PostgreSQL, MongoDB, etc.           │     │
+│  └──────────────────────────────────────────────────────┘     │
+└───────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -75,8 +75,8 @@ Cette API simule un système d'intégration partenaire type Libriciel/Pastell. L
 │ Partner  │                                    │   API    │
 └─────┬────┘                                    └─────┬────┘
       │                                               │
-      │  POST /api/v1/auth/token                     │
-      │  { clientId, clientSecret }                  │
+      │  POST /api/v1/auth/token                      │
+      │  { clientId, clientSecret }                   │
       ├──────────────────────────────────────────────>│
       │                                               │
       │                        ┌──────────────────────┤
@@ -227,28 +227,28 @@ HMACSHA256(
 ## Choix techniques
 
 ### Pourquoi Spring Boot ?
-- ✅ Framework mature et robuste
-- ✅ Large écosystème (Security, Web, Validation)
-- ✅ Auto-configuration
-- ✅ Aligné avec la stack Libriciel (Java)
+- Framework mature et robuste
+- Large écosystème (Security, Web, Validation)
+- Auto-configuration
+- Aligné avec la stack Libriciel (Java)
 
 ### Pourquoi JWT ?
-- ✅ Stateless : pas de session serveur
-- ✅ Scalable : compatible microservices
-- ✅ Standard : compatible OAuth2
-- ✅ Auto-contenu : toutes les infos dans le token
+- Stateless : pas de session serveur
+- Scalable : compatible microservices
+- Standard : compatible OAuth2
+- Auto-contenu : toutes les infos dans le token
 
 ### Pourquoi stockage en mémoire ?
-- ✅ Simplicité pour la démo
-- ✅ Pas de dépendance externe
-- ✅ Démarrage immédiat
-- ⚠️ **En production** : base de données requise
+- Simplicité pour la démo
+- Pas de dépendance externe
+- Démarrage immédiat
+- **En production** : base de données requise
 
 ### Pourquoi Swagger/OpenAPI ?
-- ✅ Documentation interactive
-- ✅ Tests directs dans le navigateur
-- ✅ Génération automatique depuis les annotations
-- ✅ Standard de l'industrie
+- Documentation interactive
+- Tests directs dans le navigateur
+- Génération automatique depuis les annotations
+- Standard de l'industrie
 
 ---
 
@@ -360,9 +360,9 @@ class DocumentControllerIntegrationTest {
 ## Conclusion
 
 Cette architecture démontre :
-- ✅ **Compréhension technique** : Spring Boot, REST, JWT
-- ✅ **Scalabilité** : prêt pour l'évolution vers la production
-- ✅ **Bonnes pratiques** : séparation des couches, tests, documentation
-- ✅ **Expérience développeur** : API claire, documentation complète, exemples
+- **Compréhension technique** : Spring Boot, REST, JWT
+- **Scalabilité** : prêt pour l'évolution vers la production
+- **Bonnes pratiques** : séparation des couches, tests, documentation
+- **Expérience développeur** : API claire, documentation complète, exemples
 
 C'est exactement le type d'architecture qu'un **DevRel** doit maîtriser pour accompagner les partenaires efficacement.

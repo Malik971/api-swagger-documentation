@@ -30,7 +30,7 @@ public class Document {
     
     private String contenu; // Contenu base64 ou référence
     
-    private String emetteur; // Identifiant de l'éditeur partenaire
+    private String editeurPartenaire; // Identifiant de l'éditeur partenaire
     
     private String destinataire; // Collectivité ou service destinataire
     
